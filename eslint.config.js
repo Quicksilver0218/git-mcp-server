@@ -1,6 +1,8 @@
 import pluginJs from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 // Merge browser + node globals and normalize keys
 const combinedGlobals = { ...globals.browser, ...globals.node };
@@ -39,7 +41,7 @@ export default [
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
-        tsconfigRootDir: new URL('.', import.meta.url).pathname,
+        tsconfigRootDir: dirname(fileURLToPath(import.meta.url)),
         sourceType: 'module',
       },
       globals: trimmedGlobals,

@@ -57,18 +57,17 @@ Add the following to your MCP client config (e.g., `cline_mcp_settings.json`). U
 ```json
 {
   "mcpServers": {
-    "git-mcp-server": {
-      "type": "stdio",
+    "Git": {
       "command": "npx",
-      "args": ["@cyanheads/git-mcp-server@latest"],
+      "args": [
+        "--allow-git",
+        "all",
+        "-y",
+        "github:Quicksilver0218/git-mcp-server"
+      ],
       "env": {
-        "MCP_TRANSPORT_TYPE": "stdio",
-        "MCP_LOG_LEVEL": "info",
-        "GIT_BASE_DIR": "~/Developer/",
-        "LOGS_DIR": "~/Developer/logs/git-mcp-server/",
-        "GIT_USERNAME": "cyanheads",
-        "GIT_EMAIL": "casey@caseyjhand.com",
-        "GIT_SIGN_COMMITS": "true"
+        // "DISABLED_TOOLS": "git_commit, git_push, git_rebase, git_remote, git_reset, git_set_working_dir",
+        "GIT_BASE_DIR": "${env:VSCODE_CWD}"
       }
     }
   }
@@ -131,6 +130,7 @@ All configuration is validated at startup in `src/config/index.ts`. Key environm
 | `GIT_WRAPUP_INSTRUCTIONS_PATH` | Path to custom markdown file with workflow instructions.                                                                                          | `(none)`    |
 | `MCP_AUTH_SECRET_KEY`          | Required for `jwt` auth. 32+ character secret key.                                                                                                | `(none)`    |
 | `OAUTH_ISSUER_URL`             | Required for `oauth` auth. OIDC provider URL.                                                                                                     | `(none)`    |
+| `DISABLED_TOOLS`               | Comma separated list of tools to disable. e.g. `git_rebase, git_reset`                                                                            | `(none)`    |
 
 ## Running the server
 

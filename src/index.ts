@@ -101,7 +101,10 @@ const shutdown = async (signal: string): Promise<void> => {
 const start = async (): Promise<void> => {
   try {
     // Initialize DI container first
-    composeContainer();
+    let disabledTools;
+    if (process.env.DISABLED_TOOLS)
+        disabledTools = new Set(process.env.DISABLED_TOOLS.split(',').map(tool => tool.trim()));
+    composeContainer(disabledTools);
     // Now it's safe to resolve dependencies
     config = container.resolve<typeof appConfigType>(AppConfig);
   } catch (_error) {

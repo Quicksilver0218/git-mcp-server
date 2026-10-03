@@ -121,8 +121,8 @@ export class ToolRegistry {
  *
  * @param {DependencyContainer} container - The tsyringe container instance to register tools with.
  */
-export const registerTools = (container: DependencyContainer): void => {
-  for (const tool of allToolDefinitions) {
-    container.register(ToolDefinitions, { useValue: tool });
-  }
+export const registerTools = (container: DependencyContainer, disabledTools?: Set<string>): void => {
+  for (const tool of allToolDefinitions)
+    if (!disabledTools?.has(tool.name))
+      container.register(ToolDefinitions, { useValue: tool });
 };

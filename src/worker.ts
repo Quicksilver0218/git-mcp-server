@@ -166,7 +166,10 @@ function initializeApp(env: CloudflareBindings): Promise<Hono<WorkerEnv>> {
       storeBindings(env);
 
       // Initialize core services lazily.
-      composeContainer();
+      let disabledTools;
+      if (process.env.DISABLED_TOOLS)
+        disabledTools = new Set(process.env.DISABLED_TOOLS.split(',').map(tool => tool.trim()));
+      composeContainer(disabledTools);
       await initializePerformance_Hrt();
 
       // Initialize logger with level from env or default to 'info'

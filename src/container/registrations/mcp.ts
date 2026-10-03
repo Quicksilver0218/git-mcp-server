@@ -26,13 +26,13 @@ import { logger } from '@/utils/index.js';
 /**
  * Registers MCP-related services and factories with the tsyringe container.
  */
-export const registerMcpServices = () => {
+export const registerMcpServices = (disabledTools?: Set<string>) => {
   // --- Register Registries ---
   container.registerSingleton(ToolRegistry);
   container.registerSingleton(ResourceRegistry);
 
   // --- Register Tools & Resources (via modular functions) ---
-  registerTools(container);
+  registerTools(container, disabledTools);
   registerResources(container);
 
   // --- Register Factories ---

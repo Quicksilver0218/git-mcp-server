@@ -40,7 +40,6 @@
     // Node.js specific
     "lib": ["ES2022"],
     "types": [
-      "bun-types",
       "node",
       "reflect-metadata",
       "@cloudflare/workers-types"
@@ -62,7 +61,7 @@
       "tests/*": ["./tests/*"]
     }
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src", "tests", "scripts"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts"],
   "ts-node": {
     "esm": true,

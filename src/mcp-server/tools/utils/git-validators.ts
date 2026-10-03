@@ -52,6 +52,7 @@ export async function resolveWorkingDirectory(
   storage: StorageService,
 ): Promise<string> {
   let workingDir: string;
+  const { config } = await import('@/config/index.js');
 
   if (pathInput === '.') {
     // Load from session storage
@@ -73,14 +74,16 @@ export async function resolveWorkingDirectory(
       storageContext,
     );
 
-    if (!sessionWorkingDir) {
+    if (sessionWorkingDir)
+      workingDir = sessionWorkingDir;
+    else if (config?.git?.baseDir)
+      return config.git.baseDir;
+    else
       throw new McpError(
         JsonRpcErrorCode.ValidationError,
         "No session working directory set. Please specify a 'path' or use 'git_set_working_dir' first.",
       );
-    }
 
-    workingDir = sessionWorkingDir;
     logger.debug('Resolved session working directory', {
       ...storageContext,
       workingDir,
@@ -96,7 +99,6 @@ export async function resolveWorkingDirectory(
 
   // Sanitize path for security (prevent directory traversal)
   // If GIT_BASE_DIR is configured, restrict operations to that directory tree
-  const { config } = await import('@/config/index.js');
   const sanitizeOptions: {
     allowAbsolute: boolean;
     rootDir?: string;

@@ -94,14 +94,5 @@ export const gitWorkingDirectoryResource: ResourceDefinition<
     },
   ],
   annotations: { readOnlyHint: true },
-  list: () => ({
-    resources: [
-      {
-        uri: 'git://working-directory',
-        name: 'Git Working Directory',
-        mimeType: 'application/json',
-      },
-    ],
-  }),
   logic: withResourceAuth(['resource:git:read'], gitWorkingDirectoryLogic),
 };

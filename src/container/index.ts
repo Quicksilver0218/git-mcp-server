@@ -17,13 +17,13 @@ let isContainerComposed = false;
  * Composes the DI container by registering all services.
  * This function is designed to be called once at application startup.
  */
-export function composeContainer(): void {
+export function composeContainer(disabledTools?: Set<string>): void {
   if (isContainerComposed) {
     return;
   }
 
   registerCoreServices();
-  registerMcpServices();
+  registerMcpServices(disabledTools);
 
   isContainerComposed = true;
 }
