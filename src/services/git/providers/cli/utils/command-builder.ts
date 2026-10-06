@@ -236,6 +236,16 @@ const SAFE_GIT_OPTIONS = new Set([
   // Format flags (accept any --pretty=..., --format=... value)
   '--format',
   '--initial-branch',
+  // Hash object flags
+  '--path',
+  '--stdin',
+  '--stdin-paths',
+  '--literally',
+  '--no-filters',
+  '--ramp',
+  // hash-object flags that take values
+  '--help',
+  '--version',
 ]);
 
 /**

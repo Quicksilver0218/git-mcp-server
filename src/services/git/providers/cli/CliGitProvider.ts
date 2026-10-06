@@ -70,6 +70,8 @@ import type {
   GitTagResult,
   GitWorktreeOptions,
   GitWorktreeResult,
+  GitHashObjectOptions,
+  GitHashObjectResult,
 } from '../../types.js';
 import {
   executeAdd,
@@ -82,6 +84,7 @@ import {
   executeCommit,
   executeDiff,
   executeFetch,
+  executeHashObject,
   executeInit,
   executeLog,
   executeMerge,
@@ -135,6 +138,7 @@ export class CliGitProvider extends BaseGitProvider implements IGitProvider {
     signCommits: true,
     sshAuth: true,
     httpAuth: true,
+    hashObject: true,
     maxRepoSizeMB: 10000, // 10GB - CLI can handle large repos
   };
 
@@ -609,6 +613,23 @@ export class CliGitProvider extends BaseGitProvider implements IGitProvider {
     this.logOperationSuccess('reflog', context, {
       entries: result.totalEntries,
     });
+    return result;
+  }
+
+  async hashObject(
+    options: GitHashObjectOptions,
+    context: GitOperationContext,
+  ): Promise<GitHashObjectResult> {
+    this.checkCapability('hashObject');
+    this.logOperationStart('hashObject', context, options);
+    const executor = (
+      args: string[],
+      cwd: string,
+      _ctx?: unknown,
+      options?: ExecuteGitOptions,
+    ) => executeGitCommand(args, cwd, options);
+    const result = await executeHashObject(options, context, executor);
+    this.logOperationSuccess('hashObject', context, { hash: result.hash });
     return result;
   }
 }

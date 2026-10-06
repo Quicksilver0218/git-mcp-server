@@ -202,6 +202,8 @@ describe('stdio transport: every tool runs through the real argument validator',
       });
       await call('git_reflog', { maxCount: 3 });
       await call('git_reflog', { ref: 'main' });
+      writeFileSync(join(repoDir, 'note.txt'), 'hello world\\n');
+      await call('git_hash_object', { file: 'note.txt' });
     },
     TIMEOUT_MS,
   );

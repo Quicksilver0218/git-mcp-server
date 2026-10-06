@@ -13,6 +13,7 @@ import { gitBlameTool } from './git-blame.tool.js';
 import { gitCleanTool } from './git-clean.tool.js';
 import { gitClearWorkingDirTool } from './git-clear-working-dir.tool.js';
 import { gitCloneTool } from './git-clone.tool.js';
+import { gitHashObjectTool } from './git-hash-object.tool.js';
 import { gitInitTool } from './git-init.tool.js';
 import { gitReflogTool } from './git-reflog.tool.js';
 import { gitSetWorkingDirTool } from './git-set-working-dir.tool.js';
@@ -62,6 +63,7 @@ export const allToolDefinitions = [
   gitCommitTool,
   gitDiffTool,
   gitFetchTool,
+  gitHashObjectTool,
   gitInitTool,
   gitLogTool,
   gitMergeTool,

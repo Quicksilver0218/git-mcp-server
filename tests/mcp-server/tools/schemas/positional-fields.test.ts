@@ -37,6 +37,7 @@ const ALLOWED_TO_ACCEPT_LEADING_DASH: Record<string, string[]> = {
   git_push: ['path'],
   git_rebase: ['path'],
   git_reflog: ['path'],
+  git_hash_object: ['path', 'file'],
   git_remote: ['path'],
   git_reset: ['path'],
   git_set_working_dir: ['path'],

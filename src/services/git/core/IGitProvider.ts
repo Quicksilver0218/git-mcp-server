@@ -69,6 +69,8 @@ import type {
   GitBlameResult,
   GitReflogOptions,
   GitReflogResult,
+  GitHashObjectOptions,
+  GitHashObjectResult,
 } from '../types.js';
 
 /**
@@ -480,6 +482,19 @@ export interface IGitProvider {
     options: GitBlameOptions,
     context: GitOperationContext,
   ): Promise<GitBlameResult>;
+
+  /**
+   * Compute the hash of a git object (git hash-object).
+   *
+   * @param options - Hash object operation options
+   * @param context - Operation context
+   * @returns Promise resolving to hash object result
+   * @throws {McpError} If hash object fails or is unsupported
+   */
+  hashObject(
+    options: GitHashObjectOptions,
+    context: GitOperationContext,
+  ): Promise<GitHashObjectResult>;
 
   /**
    * View reference logs (reflog) to track reference updates.

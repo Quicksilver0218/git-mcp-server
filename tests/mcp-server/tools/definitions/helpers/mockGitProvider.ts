@@ -64,6 +64,8 @@ import type {
   GitBlameResult,
   GitReflogOptions,
   GitReflogResult,
+  GitHashObjectOptions,
+  GitHashObjectResult,
 } from '@/services/git/types.js';
 
 /**
@@ -89,6 +91,7 @@ export class MockGitProvider implements IGitProvider {
     worktree: true,
     blame: true,
     reflog: true,
+    hashObject: true,
     signCommits: true,
     sshAuth: true,
     httpAuth: true,
@@ -280,6 +283,13 @@ export class MockGitProvider implements IGitProvider {
         context: GitOperationContext,
       ) => Promise<GitReflogResult>
     >();
+  hashObject =
+    vi.fn<
+      (
+        options: GitHashObjectOptions,
+        context: GitOperationContext,
+      ) => Promise<GitHashObjectResult>
+    >();
 
   /**
    * Health check - always returns true for mock provider
@@ -327,6 +337,7 @@ export class MockGitProvider implements IGitProvider {
     this.reset.mockReset();
     this.blame.mockReset();
     this.reflog.mockReset();
+    this.hashObject.mockReset();
     this.healthCheck.mockReset();
     this.validateRepository.mockReset();
   }

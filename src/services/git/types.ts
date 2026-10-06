@@ -79,6 +79,8 @@ export interface GitProviderCapabilities {
   httpAuth: boolean;
   /** Maximum recommended repository size in MB */
   maxRepoSizeMB: number;
+  /** Can hash objects (git hash-object) */
+  hashObject: boolean;
 }
 
 // ============================================================================
@@ -912,6 +914,40 @@ export interface GitWorktreeResult {
 
 // ============================================================================
 // Additional Operations
+// ============================================================================
+// Hash Object Operations
+// ============================================================================
+
+export interface GitHashObjectOptions {
+  /** Path to the file to hash (relative to repository root). */
+  path?: string;
+  /** Blob object content to hash (read from stdin if not provided). */
+  object?: string;
+  /** Hash algorithm to use (default: sha1). */
+  algorithm?: 'sha1' | 'sha256';
+  /** Write the object to the object database, but don't commit (default: false). */
+  write?: boolean;
+  /** Read raw content from file, don't attempt to strip whitespaces (default: false). */
+  literally?: boolean;
+  /** Hash content as stored in the working tree, not as in the index (default: false). */
+  literallyWorkTree?: boolean;
+  /** Verify the object is valid (default: false). */
+  verify?: boolean;
+  /** Force operation even if it would overwrite existing objects (default: false). */
+  force?: boolean;
+}
+
+export interface GitHashObjectResult {
+  /** Operation success status */
+  success: boolean;
+  /** The object hash (SHA-1 or SHA-256) */
+  hash: string;
+  /** The object type (e.g., 'blob') */
+  objectType?: string;
+  /** Raw git output */
+  rawOutput?: string;
+}
+
 // ============================================================================
 
 export interface GitResetOptions {

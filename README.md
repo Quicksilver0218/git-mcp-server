@@ -1,7 +1,7 @@
 <div align="center">
   <h1>@cyanheads/git-mcp-server</h1>
   <p><b>A Git MCP server for AI agents. STDIO & Streamable HTTP.</b>
-  <div>28 Tools · 1 Resource · 1 Prompt</div>
+  <div>29 Tools · 1 Resource · 1 Prompt</div>
   </p>
 </div>
 
@@ -15,13 +15,13 @@
 
 ## Tools
 
-28 git operations organized into seven categories:
+29 git operations organized into seven categories:
 
 | Category                  | Tools                                                                                                                          | Description                                                                                                         |
 | :------------------------ | :----------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------ |
 | **Repository Management** | `git_init`, `git_clone`, `git_status`, `git_clean`                                                                             | Initialize repos, clone from remotes, check status, clean untracked files                                           |
 | **Staging & Commits**     | `git_add`, `git_commit`, `git_diff`                                                                                            | Stage changes, create commits, compare changes                                                                      |
-| **History & Inspection**  | `git_log`, `git_show`, `git_blame`, `git_reflog`                                                                               | View commit history, inspect objects, trace authorship, view ref logs                                               |
+| **History & Inspection**  | `git_log`, `git_show`, `git_blame`, `git_reflog`, `git_hash_object`                                                            | View commit history, inspect objects, trace authorship, view ref logs, compute object hashes                        |
 | **Analysis**              | `git_changelog_analyze`                                                                                                        | Gather git context and instructions for LLM-driven changelog analysis                                               |
 | **Branching & Merging**   | `git_branch`, `git_checkout`, `git_merge`, `git_rebase`, `git_cherry_pick`                                                     | Manage branches, switch contexts, integrate changes, apply specific commits                                         |
 | **Remote Operations**     | `git_remote`, `git_fetch`, `git_pull`, `git_push`                                                                              | Configure remotes, fetch updates, synchronize repositories, publish changes                                         |
@@ -228,7 +228,7 @@ bun run devcheck      # Lint, format, typecheck, audit
 
 The server uses a provider-based architecture for git operations:
 
-- **CLI provider** (current) — Full 28-tool coverage via native git CLI. Requires local git installation.
+- **CLI provider** (current) — Full 29-tool coverage via native git CLI. Requires local git installation.
 - **Isomorphic git provider** (planned) — Pure JS implementation for edge deployment (Cloudflare Workers, Vercel Edge, Deno Deploy). Uses [isomorphic-git](https://isomorphic-git.org/).
 - **GitHub API provider** (maybe) — Cloud-native operations via GitHub REST/GraphQL APIs, no local repo required.
 
