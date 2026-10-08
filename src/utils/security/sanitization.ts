@@ -201,13 +201,13 @@ export class Sanitization {
     const path = pathModule;
 
     const originalInput = input;
-    const resolvedRootDir = options.rootDir
+    let rootDir = options.rootDir
       ? path.resolve(options.rootDir)
       : undefined;
     const effectiveOptions: PathSanitizeOptions = {
       toPosix: options.toPosix ?? false,
       allowAbsolute: options.allowAbsolute ?? false,
-      ...(resolvedRootDir && { rootDir: resolvedRootDir }),
+      ...(rootDir && { rootDir }),
     };
 
     let wasAbsoluteInitially = false;
@@ -227,33 +227,31 @@ export class Sanitization {
 
       let finalSanitizedPath: string;
 
-      if (resolvedRootDir) {
+      if (rootDir) {
         let fullPath: string;
 
         // If the input is already absolute, use it directly
         // Otherwise, resolve it relative to rootDir
-        if (path.isAbsolute(normalized)) {
-          fullPath = path.normalize(normalized);
-        } else {
-          fullPath = path.resolve(resolvedRootDir, normalized);
-        }
+        if (path.isAbsolute(normalized))
+          fullPath = path.resolve(normalized);
+        else
+          fullPath = path.resolve(rootDir, normalized);
 
-        // Normalize both paths for consistent comparison
-        const normalizedRoot = path.normalize(resolvedRootDir);
-        const normalizedFull = path.normalize(fullPath);
+        const fpRoot = path.parse(fullPath).root;
+        const rdRoot = path.parse(rootDir).root;
+        fullPath = fpRoot.toUpperCase() + fullPath.slice(fpRoot.length);
+        rootDir = rdRoot.toUpperCase() + rootDir.slice(rdRoot.length);
 
         // Validate the path is within rootDir
         if (
-          !normalizedFull.startsWith(normalizedRoot + path.sep) &&
-          normalizedFull !== normalizedRoot
+          !fullPath.startsWith(rootDir + path.sep) &&
+          fullPath !== rootDir
         ) {
           throw new Error(
-            'Path traversal detected: attempts to escape the defined root directory.',
+            `Path traversal detected: attempts to escape the defined root directory (${rootDir}).`,
           );
         }
-        finalSanitizedPath = path.relative(normalizedRoot, normalizedFull);
-        finalSanitizedPath =
-          finalSanitizedPath === '' ? '.' : finalSanitizedPath;
+        finalSanitizedPath = path.relative(rootDir, fullPath) || '.';
         if (
           path.isAbsolute(finalSanitizedPath) &&
           !effectiveOptions.allowAbsolute
